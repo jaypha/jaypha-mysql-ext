@@ -1,0 +1,28 @@
+{
+  "engines" : { "node" : ">=7.7.3" },
+  "name": "jaypha-mysql-ext",
+  "version": "1.0.1",
+  "description": "Some convenience functions to extend the mysql2 module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaypha/jaypha-mysql-ext.git"
+  },
+  "keywords": [
+    "mysql",
+    "addon",
+    "convenience"
+  ],
+  "author": "Jason den Dulk",
+  "license": "BSL-1.0",
+  "bugs": {
+    "url": "https://github.com/jaypha/jaypha-mysql-ext/issues"
+  },
+  "homepage": "https://github.com/jaypha/jaypha-mysql-ext#readme",
+  "dependencies": {
+    "mysql2": "^1.2.0"
+  }
+}
