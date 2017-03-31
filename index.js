@@ -1,6 +1,6 @@
 // Node.js
 //----------------------------------------------------------------------------
-// Database wrapper providing convenience functions.
+// Adds convenience functions to database object.
 //----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
@@ -53,15 +53,16 @@ mysql.queryColumn = async function(x,y) {
 };
 
 //----------------------------------------------------------------------------
+// Shortcut for INSERT
 
 mysql.insert = async function(table, columns, values) {
   let results, fields;
   // Three possibilities
-  // string[string] columns, null
-  // string[] columns, string[] values
-  // string[] columns, string[][] values
+  // columns: object, values: ignored
+  // columns: array, values: array
+  // columns: array, values: 2D array
 
-  if (typeof values == "undefined") {
+  if (!Array.isArray(columns)) {
     [results, fields] = await this.query(
       "insert into "+table+" set ?",
       columns
@@ -86,6 +87,7 @@ mysql.insert = async function(table, columns, values) {
 }
 
 //----------------------------------------------------------------------------
+// Shortcut for UPDATE
 
 mysql.update = async function(table, values, wheres) {
   let v = [];
@@ -99,6 +101,7 @@ mysql.update = async function(table, values, wheres) {
 }
 
 //----------------------------------------------------------------------------
+// Selects a row using an ID
 
 mysql.get = async function(table, id) {
   let row = await this.queryRow("select * from "+table+" where id="+id);
@@ -106,6 +109,7 @@ mysql.get = async function(table, id) {
 }
 
 //----------------------------------------------------------------------------
+// Updates/inserts a row using an ID
 
 mysql.set = async function(table, values, id) {
   if (id) {
@@ -121,6 +125,7 @@ mysql.set = async function(table, values, id) {
 }
 
 //----------------------------------------------------------------------------
+// Deletes a row using an ID
 
 mysql.delete = function(table, id) {
   this.query("delete from "+table+" where id="+id);

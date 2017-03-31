@@ -69,15 +69,16 @@ JayphaDB.prototype.queryColumn = async function(x,y) {
 };
 
 //----------------------------------------------------------------------------
+// Shortcut for INSERT
 
 JayphaDB.prototype.insert = async function(table, columns, values) {
   let results, fields;
   // Three possibilities
-  // string[string] columns, null
-  // string[] columns, string[] values
-  // string[] columns, string[][] values
+  // columns: object, values: ignored
+  // columns: array, values: array
+  // columns: array, values: 2D array
 
-  if (typeof values == "undefined") {
+  if (!Array.isArray(columns)) {
     [results, fields] = await this.connection.query(
       "insert into "+table+" set ?",
       columns
@@ -102,6 +103,7 @@ JayphaDB.prototype.insert = async function(table, columns, values) {
 }
 
 //----------------------------------------------------------------------------
+// Shortcut for UPDATE
 
 JayphaDB.prototype.update = async function(table, values, wheres) {
   let v = [];
@@ -115,6 +117,7 @@ JayphaDB.prototype.update = async function(table, values, wheres) {
 }
 
 //----------------------------------------------------------------------------
+// Selects a row using an ID
 
 JayphaDB.prototype.get = async function(table, id) {
   let row = await this.queryRow("select * from "+table+" where id="+id);
@@ -122,6 +125,7 @@ JayphaDB.prototype.get = async function(table, id) {
 }
 
 //----------------------------------------------------------------------------
+// Updates/inserts a row using an ID
 
 JayphaDB.prototype.set = async function(table, values, id) {
   if (id) {
@@ -137,6 +141,7 @@ JayphaDB.prototype.set = async function(table, values, id) {
 }
 
 //----------------------------------------------------------------------------
+// Deletes a row using an ID
 
 JayphaDB.prototype.delete = function(table, id) {
   this.connection.query("delete from "+table+" where id="+id);
@@ -144,7 +149,7 @@ JayphaDB.prototype.delete = function(table, id) {
 
 //----------------------------------------------------------------------------
 
-module.exports = jayphaMysql;
+module.exports = wrap;
 
 //----------------------------------------------------------------------------
 // Copyright (C) Jaypha.

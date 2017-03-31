@@ -5,26 +5,18 @@
 
 console.log("Testing jaypha-mysql-plus");
 
-const mysql2 = require('mysql2/promise');
+require('dotenv').config();
 
-const myWrap = require('../index.js');
+console.log(process.env.MYSQL_HOST);
+
+const mysql2 = require('mysql2/promise');
+const monkeyWrap = require('../index.js');
+const noMonkeyWrap = require('../nomonkey.js');
 
 const tableName = "__TestTable__";
 const tableDef = "CREATE TABLE `"+tableName+"` (`id` int(11) NOT NULL AUTO_INCREMENT,  `name` varchar(255) NOT NULL DEFAULT '',  `age` int(11) DEFAULT NULL,  PRIMARY KEY (`id`)) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4;";
 
-(async function(){
-
-  let db = await mysql2.createConnection
-  (
-    {
-      host:'localhost',
-      user: 'root',
-      password: '',
-      database: 'mysql'
-    }
-  );
-
-  myWrap(db);
+async function doTest(db) {
 
   await db.query("drop table  if exists `"+tableName+"`");
   await db.query(tableDef);
@@ -60,7 +52,28 @@ const tableDef = "CREATE TABLE `"+tableName+"` (`id` int(11) NOT NULL AUTO_INCRE
   console.log(row);
 
   await db.query("drop table  if exists `"+tableName+"`");
-  
+}
+
+(async function() {
+  let db = await mysql2.createConnection
+  (
+    {
+      host: process.env.MYSQL_HOST,
+      user: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PASS,
+      database: process.env.MYSQL_DBASE
+    }
+  );
+
+  console.log("Testing non-monkey version");
+
+  let newDb = noMonkeyWrap(db);
+  await doTest(newDb);
+
+  console.log("Testing monkey version");
+
+  monkeyWrap(db);
+  await doTest(db);
 })().then(
 function(){
   console.log("Testing finished");

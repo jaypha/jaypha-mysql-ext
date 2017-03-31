@@ -1,5 +1,7 @@
 {
-  "engines" : { "node" : ">=7.7.3" },
+  "engines": {
+    "node": ">=7.7.3"
+  },
   "name": "jaypha-mysql-ext",
   "version": "1.0.1",
   "description": "Some convenience functions to extend the mysql2 module",
@@ -24,5 +26,8 @@
   "homepage": "https://github.com/jaypha/jaypha-mysql-ext#readme",
   "dependencies": {
     "mysql2": "^1.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0"
   }
 }
