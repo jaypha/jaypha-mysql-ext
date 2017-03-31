@@ -3,7 +3,7 @@
     "node": ">=7.7.3"
   },
   "name": "jaypha-mysql-ext",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Some convenience functions to extend the mysql2 module",
   "main": "index.js",
   "scripts": {
