@@ -52,9 +52,9 @@ async function setup(config) {
   return mysqlExt(db);  
 }
 ```
-##API
+## API
 
-### connection
+### `connection`
 
 In the non-monkeypatch version, the mysql2 object can be accessed through
 the `connection` property.
@@ -110,7 +110,7 @@ If a key is repeated, it will overwrite any existing value.
 A shortcut for insert statements. There are three cases
 
 - If `columns` is an object (that is, not an array), then it is inserted to the database
-using key/valus pairs. `values` is ignored.
+using key/value pairs. `values` is ignored.
 - `columns` is an array and `values` is an array. Inserts a single row using `columns` and
 `values`.
 - `columns` is an array and `values` is a two dimensional array. Inserts multiple rows.
@@ -119,15 +119,15 @@ Each element of the `values` array is a row.
 Returns the value of InsertId.
 
 ```javascript
+// insert into sometable set id=1, name='john'  
 let  id = db.insert("sometable", { id : 1, name : "john" });  
-console.log("insert into sometable set id=1, name='john'");  
 console.log("new row ID is "+id);
 
-db.insert("sometable", [ "id", "name"], [1, "john"]);  
-console.log("insert into sometable (id,name) values (1,'john')");
+// insert into sometable (id,name) values (1,'john')"  
+db.insert("sometable", [ "id", "name"], [1, "john"]);
 
-db.insert("sometable", [ "id", "name"], [[1, "john"]. [2, "jane"]]);  
-console.log("insert into sometable (id,name) values (1,'john'), (2,'jane')");
+// insert into sometable (id,name) values (1,'john'), (2,'jane')  
+db.insert("sometable", [ "id", "name"], [[1, "john"], [2, "jane"]]);
 ```
 
 ### `update(tableName, values, wheres)`
@@ -135,8 +135,8 @@ console.log("insert into sometable (id,name) values (1,'john'), (2,'jane')");
 A shortcut for update statements.
 
 ```js
-db.update("sometable", { name : "john" }, { id : 1 });  
-console.log("update into sometable set name='john' where id=1");
+// update into sometable set name='john' where id=1  
+db.update("sometable", { name : "john" }, { id : 1 });
 ```
 
 ### `get(tableName, id)`

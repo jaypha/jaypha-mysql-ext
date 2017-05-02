@@ -36,7 +36,8 @@ JayphaDB.prototype.queryData = async function(x,y) {
 
 JayphaDB.prototype.queryValue = async function(x,y) {
   let [results, fields] = await this.connection.query(x,y);
-  return results[0][fields[0].name];
+  if (results.length == 0) return false;
+  else return results[0][fields[0].name];
 };
 
 //----------------------------------------------------------------------------
@@ -44,7 +45,8 @@ JayphaDB.prototype.queryValue = async function(x,y) {
 
 JayphaDB.prototype.queryRow = async function(x,y) {
   let [results, fields] = await this.connection.query(x,y);
-  return results[0];
+  if (results.length == 0) return false;
+  else return results[0];
 };
 
 //----------------------------------------------------------------------------

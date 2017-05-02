@@ -7,8 +7,6 @@ console.log("Testing jaypha-mysql-plus");
 
 require('dotenv').config();
 
-console.log(process.env.MYSQL_HOST);
-
 const mysql2 = require('mysql2/promise');
 const monkeyWrap = require('../index.js');
 const noMonkeyWrap = require('../nomonkey.js');
@@ -33,6 +31,17 @@ async function doTest(db) {
   row = await db.get(tableName, id);
   console.log(row);
 
+  id = await db.queryValue("select id from "+tableName+" where name='john'");
+  console.log("id = "+id+", ("+typeof(id)+")");
+  id = await db.queryValue("select id from "+tableName+" where name='xy'");
+  console.log("id = "+id+", ("+typeof(id)+")");
+
+  row = await db.queryRow("select * from "+tableName+" where name='john'");
+  console.log(row);
+  row = await db.queryRow("select * from "+tableName+" where name='xy'");
+  console.log(row);
+
+
   id = await db.insert(tableName, ['name', 'age'], [['max', 12], ['wren', 24], ['jill', 18]]);
   console.log("id = "+id);
 
@@ -44,6 +53,8 @@ async function doTest(db) {
   id = await db.set(tableName, { age: 100 });
   console.log("id = "+id);
   row = await db.get(tableName, id);
+  console.log(row);
+  row = await db.get(tableName, 50);
   console.log(row);
 
   await db.delete(tableName, 2);

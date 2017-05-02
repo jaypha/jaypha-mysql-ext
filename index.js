@@ -20,7 +20,8 @@ mysql.queryData = async function(x,y) {
 
 mysql.queryValue = async function(x,y) {
   let [results, fields] = await this.query(x,y);
-  return results[0][fields[0].name];
+  if (results.length == 0) return false;
+  else return results[0][fields[0].name];
 };
 
 //----------------------------------------------------------------------------
@@ -28,7 +29,8 @@ mysql.queryValue = async function(x,y) {
 
 mysql.queryRow = async function(x,y) {
   let [results, fields] = await this.query(x,y);
-  return results[0];
+  if (results.length == 0) return false;
+  else return results[0];
 };
 
 //----------------------------------------------------------------------------
